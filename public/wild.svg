@@ -1,0 +1,48 @@
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- 
+      SVG Logo for "Wildcats Companion"
+      This logo combines a stylized wildcat head with a map pin icon 
+      to represent navigation and campus life.
+      Colors: Deep Red (#A60D0D), Gold (#FFC700), Dark Gray (#333333)
+    -->
+
+    <!-- Background Map Pin Shape -->
+    <path d="M50 0 C22.4 0 0 22.4 0 50 C0 85 50 100 50 100 C50 100 100 85 100 50 C100 22.4 77.6 0 50 0 Z" fill="#A60D0D"/>
+
+    <!-- Inner Circle (Gold Accent) -->
+    <circle cx="50" cy="40" r="38" fill="#FFD700"/>
+
+    <!-- Wildcat Face Elements -->
+    <g transform="translate(0, 5)">
+
+        <!-- Ears -->
+        <path d="M25,35 L35,15 L45,35 Z" fill="#A60D0D"/>
+        <path d="M75,35 L65,15 L55,35 Z" fill="#A60D0D"/>
+        <path d="M28,33 L35,20 L42,33 Z" fill="#FFC700"/>
+        <path d="M72,33 L65,20 L58,33 Z" fill="#FFC700"/>
+
+        <!-- Head Shape -->
+        <path d="M30 30 C 20 55, 30 70, 50 75 C 70 70, 80 55, 70 30 L 50 45 Z" fill="#A60D0D"/>
+
+        <!-- Eyes -->
+        <circle cx="40" cy="45" r="5" fill="#333333"/>
+        <circle cx="60" cy="45" r="5" fill="#333333"/>
+        <circle cx="41" cy="44" r="2" fill="white"/>
+        <circle cx="61" cy="44" r="2" fill="white"/>
+
+        <!-- Nose -->
+        <path d="M47,60 L53,60 L50,65 Z" fill="#333333"/>
+
+        <!-- Muzzle -->
+        <path d="M40,68 C 45 72, 55 72, 60 68 C 55 65, 45 65, 40 68 Z" fill="#FFC700" opacity="0.5"/>
+
+        <!-- Whiskers -->
+        <line x1="25" y1="55" x2="35" y2="58" stroke="#333333" stroke-width="1"/>
+        <line x1="23" y1="60" x2="33" y2="62" stroke="#333333" stroke-width="1"/>
+        <line x1="25" y1="65" x2="35" y2="66" stroke="#333333" stroke-width="1"/>
+
+        <line x1="75" y1="55" x2="65" y2="58" stroke="#333333" stroke-width="1"/>
+        <line x1="77" y1="60" x2="67" y2="62" stroke="#333333" stroke-width="1"/>
+        <line x1="75" y1="65" x2="65" y2="66" stroke="#333333" stroke-width="1"/>
+    </g>
+</svg>

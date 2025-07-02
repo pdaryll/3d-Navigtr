@@ -1,0 +1,33 @@
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- 
+      SVG Logo for "Wildcats Companion" (Simple Version)
+      A minimalist and modern design featuring a wildcat silhouette within a map pin.
+      Colors: Deep Red (#A60D0D), Gold (#FFC700), White (#FFFFFF)
+    -->
+
+    <!-- Background Map Pin -->
+    <path d="M50 0 C27.9 0 8 19.9 8 42 C8 73 50 98 50 98 C50 98 92 73 92 42 C92 19.9 72.1 0 50 0 Z" fill="#A60D0D"/>
+
+    <!-- Inner Circle -->
+    <circle cx="50" cy="42" r="32" fill="#FFC700"/>
+
+    <!-- Wildcat Silhouette -->
+    <g transform="translate(0, 4)">
+        <!-- Head and Ears -->
+        <path d="M50 22 
+                 L68 32 C 65 38, 66 45, 66 45 
+                 L70 60 C 70 60, 60 72, 50 72 
+                 C 40 72, 30 60, 30 60 
+                 L34 45 C 34 45, 35 38, 32 32 
+                 L50 22 Z" 
+              fill="#FFFFFF" />
+
+        <!-- Eyes (simple cutouts) -->
+        <path d="M42 45 A 4 4 0 0 1 38 45 A 4 4 0 0 1 42 45 Z" fill="#A60D0D"/>
+        <path d="M58 45 A 4 4 0 0 1 54 45 A 4 4 0 0 1 58 45 Z" fill="#A60D0D"/>
+
+        <!-- Nose -->
+        <path d="M48 58 L52 58 L50 62 Z" fill="#A60D0D"/>
+    </g>
+
+</svg>

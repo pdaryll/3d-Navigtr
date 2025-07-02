@@ -1,0 +1,42 @@
+<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- 
+      SVG Logo for "Wildcats Companion" (Lion Version)
+      A minimalist and modern design featuring a lion silhouette with a mane,
+      all within a map pin to represent campus navigation.
+      Colors: Deep Red (#A60D0D), Gold (#FFC700), White (#FFFFFF)
+    -->
+
+    <!-- Background Map Pin -->
+    <path d="M50 0 C27.9 0 8 19.9 8 42 C8 73 50 98 50 98 C50 98 92 73 92 42 C92 19.9 72.1 0 50 0 Z" fill="#A60D0D"/>
+
+    <!-- Inner Circle -->
+    <circle cx="50" cy="42" r="32" fill="#FFC700"/>
+
+    <!-- Lion Silhouette -->
+    <g transform="translate(0, 5)">
+        <!-- Mane (using the red color for contrast) -->
+        <path d="M50,15 
+                 L58,25 L70,25 L75,35 L78,45 L75,55 L70,65 L58,65
+                 L50,75
+                 L42,65 L30,65 L25,55 L22,45 L25,35 L30,25 L42,25
+                 Z" 
+              fill="#A60D0D"/>
+
+        <!-- Lion Head Face -->
+        <path d="M50,25 
+                 C40,25 35,30 35,40 
+                 L35,55 
+                 C38,68 62,68 65,55 
+                 L65,40 
+                 C65,30 60,25 50,25 Z" 
+              fill="#FFFFFF"/>
+
+        <!-- Eyes -->
+        <circle cx="43" cy="48" r="3" fill="#A60D0D"/>
+        <circle cx="57" cy="48" r="3" fill="#A60D0D"/>
+
+        <!-- Nose -->
+        <path d="M47,58 L53,58 L50,63 Z" fill="#A60D0D"/>
+    </g>
+
+</svg>
