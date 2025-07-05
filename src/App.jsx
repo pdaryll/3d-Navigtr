@@ -2,6 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls.js';
+import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 
 // Building data now includes a description
 const buildingData = [
@@ -35,6 +38,8 @@ const App = () => {
         isDragging: false, isMouseDown: false,
         mouseDownPos: new THREE.Vector2(),
         buildingBoundingBoxes: [],
+        outlineMesh: null,
+        composer: null,
     });
 
     // Main setup effect, runs only once
@@ -52,6 +57,18 @@ const App = () => {
         t.renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
         t.renderer.shadowMap.enabled = true;
         currentMount.appendChild(t.renderer.domElement);
+
+        // Post-processing for glow effect
+        t.composer = new EffectComposer(t.renderer);
+        const renderPass = new RenderPass(t.scene, t.perspectiveCamera);
+        t.composer.addPass(renderPass);
+
+        const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+        bloomPass.threshold = 0;
+        bloomPass.strength = 1.2; // Increase for more glow
+        bloomPass.radius = 0.5;
+        t.composer.addPass(bloomPass);
+
         currentMount.style.cursor = 'grab';
 
         // === CAMERAS ===
@@ -127,8 +144,35 @@ const App = () => {
             if (t.mouseDownPos.distanceTo(clickPos) > 5) return;
 
             if (e.target.closest('.info-panel')) return;
-            if (selectedBuildingRef.current) { setSelectedBuilding(null); return; }
-            if (t.hoveredBuilding) setSelectedBuilding(t.hoveredBuilding.userData);
+
+            // Remove existing outline if there is one
+            if (t.outlineMesh) {
+                t.scene.remove(t.outlineMesh);
+                t.outlineMesh.geometry.dispose();
+                t.outlineMesh.material.dispose();
+                t.outlineMesh = null;
+            }
+
+            if (selectedBuildingRef.current) {
+                setSelectedBuilding(null);
+                return;
+            }
+
+            if (t.hoveredBuilding) {
+                setSelectedBuilding(t.hoveredBuilding.userData);
+
+                // Create and add the outline
+                const edges = new THREE.EdgesGeometry(t.hoveredBuilding.geometry);
+                const outlineMaterial = new THREE.LineBasicMaterial({
+                    color: 0xffeb3b,
+                    linewidth: 3,
+                    depthTest: false,
+                });
+                t.outlineMesh = new THREE.LineSegments(edges, outlineMaterial);
+                t.outlineMesh.position.copy(t.hoveredBuilding.position);
+                t.outlineMesh.renderOrder = 999; // Render on top of other objects
+                t.scene.add(t.outlineMesh);
+            }
         };
         const onKeyDown = (e) => { t.keysPressed[e.code] = true; };
         const onKeyUp = (e) => { t.keysPressed[e.code] = false; };
@@ -139,7 +183,7 @@ const App = () => {
         };
 
         currentMount.addEventListener('mousedown', onMouseDown);
-        currentMount.addEventListener('mouseup', onMouseUp);
+        window.addEventListener('mouseup', onMouseUp);
         t.pointerLockControls.addEventListener('lock', onPointerLock);
         t.pointerLockControls.addEventListener('unlock', onPointerUnlock);
         window.addEventListener('mousemove', onMouseMove);
@@ -212,7 +256,7 @@ const App = () => {
         const updateRaycasting = () => {
             if (t.isDragging) {
                 if (t.hoveredBuilding) {
-                    t.hoveredBuilding.material.emissive.setHex(0xffeb3b);
+                    t.hoveredBuilding.material.emissive.setHex(0x000000);
                     t.hoveredBuilding = null;
                 }
                 return;
@@ -229,20 +273,10 @@ const App = () => {
             const intersects = t.raycaster.intersectObjects(t.buildingMeshes);
             if (intersects.length > 0) {
                 const first = intersects[0].object;
-                // console.log("yes bitch its suppose to be yellow nottt?")
                 if (t.hoveredBuilding !== first) {
                     if (t.hoveredBuilding) t.hoveredBuilding.material.emissive.setHex(0x000000);
                     t.hoveredBuilding = first;
-                    // console.log("yes bitch its suppose to be yellow")
-                    console.log("Material before:", t.hoveredBuilding.material);
-                    // t.hoveredBuilding.material.color.set(0xffeb3b);
-                    t.hoveredBuilding.material.map = null;
                     t.hoveredBuilding.material.emissive.setHex(0xffeb3b);
-                    t.hoveredBuilding.material.needsUpdate = true;
-                    console.log("Material after:", t.hoveredBuilding.material);
-                    // Remove the texture map to see if the color shows
-                    
-                    
                 }
                 currentMount.style.cursor = 'pointer';
             } else {
@@ -272,7 +306,7 @@ const App = () => {
         return () => {
             cancelAnimationFrame(animationFrameId);
             currentMount.removeEventListener('mousedown', onMouseDown);
-            currentMount.removeEventListener('mouseup', onMouseUp);
+            window.removeEventListener('mouseup', onMouseUp);
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('click', onClick);
             window.removeEventListener('keydown', onKeyDown);
@@ -328,6 +362,14 @@ const App = () => {
         }
         
         t.orbitControls.update();
+        
+        // Remove outline when view mode changes
+        if (t.outlineMesh) {
+            t.scene.remove(t.outlineMesh);
+            t.outlineMesh.geometry.dispose();
+            t.outlineMesh.material.dispose();
+            t.outlineMesh = null;
+        }
     }, [viewMode]);
 
     return (
