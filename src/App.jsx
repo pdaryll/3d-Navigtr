@@ -139,7 +139,7 @@ const App = () => {
         };
 
         currentMount.addEventListener('mousedown', onMouseDown);
-        currentMount.addEventListener('mouseup', onMouseUp);
+        window.addEventListener('mouseup', onMouseUp);
         t.pointerLockControls.addEventListener('lock', onPointerLock);
         t.pointerLockControls.addEventListener('unlock', onPointerUnlock);
         window.addEventListener('mousemove', onMouseMove);
@@ -212,7 +212,7 @@ const App = () => {
         const updateRaycasting = () => {
             if (t.isDragging) {
                 if (t.hoveredBuilding) {
-                    t.hoveredBuilding.material.emissive.setHex(0xffeb3b);
+                    t.hoveredBuilding.material.emissive.setHex(0x000000);
                     t.hoveredBuilding = null;
                 }
                 return;
@@ -229,20 +229,10 @@ const App = () => {
             const intersects = t.raycaster.intersectObjects(t.buildingMeshes);
             if (intersects.length > 0) {
                 const first = intersects[0].object;
-                // console.log("yes bitch its suppose to be yellow nottt?")
                 if (t.hoveredBuilding !== first) {
                     if (t.hoveredBuilding) t.hoveredBuilding.material.emissive.setHex(0x000000);
                     t.hoveredBuilding = first;
-                    // console.log("yes bitch its suppose to be yellow")
-                    console.log("Material before:", t.hoveredBuilding.material);
-                    // t.hoveredBuilding.material.color.set(0xffeb3b);
-                    t.hoveredBuilding.material.map = null;
                     t.hoveredBuilding.material.emissive.setHex(0xffeb3b);
-                    t.hoveredBuilding.material.needsUpdate = true;
-                    console.log("Material after:", t.hoveredBuilding.material);
-                    // Remove the texture map to see if the color shows
-                    
-                    
                 }
                 currentMount.style.cursor = 'pointer';
             } else {
@@ -272,7 +262,7 @@ const App = () => {
         return () => {
             cancelAnimationFrame(animationFrameId);
             currentMount.removeEventListener('mousedown', onMouseDown);
-            currentMount.removeEventListener('mouseup', onMouseUp);
+            window.removeEventListener('mouseup', onMouseUp);
             window.removeEventListener('mousemove', onMouseMove);
             window.removeEventListener('click', onClick);
             window.removeEventListener('keydown', onKeyDown);
