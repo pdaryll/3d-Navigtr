@@ -340,15 +340,15 @@ const App = () => {
                     <h1 className="text-xl md:text-2xl font-bold">Campus Map</h1>
                     <p className="text-sm text-gray-300">View: <span className="font-semibold text-yellow-300">{viewMode.toUpperCase()}</span></p>
                 </div>
-                <div className="flex gap-2 bg-gray-800 bg-opacity-75 p-2 rounded-lg pointer-events-auto">
-                    <button onClick={() => setViewMode('orbit')} className={`px-3 py-1 rounded ${viewMode === 'orbit' ? 'bg-yellow-500 text-black' : 'bg-gray-600 hover:bg-gray-500'} transition-colors`}>3D</button>
-                    <button onClick={() => setViewMode('2d')} className={`px-3 py-1 rounded ${viewMode === '2d' ? 'bg-yellow-500 text-black' : 'bg-gray-600 hover:bg-gray-500'} transition-colors`}>2D</button>
-                    <button onClick={() => setViewMode('fps')} className={`px-3 py-1 rounded ${viewMode === 'fps' ? 'bg-yellow-500 text-black' : 'bg-gray-600 hover:bg-gray-500'} transition-colors`}>FPS</button>
+                <div className="flex gap-2 bg-gray-800/70 p-2 rounded-lg pointer-events-auto backdrop-blur-sm">
+                    <button onClick={() => setViewMode('orbit')} className={`cursor-pointer px-3 py-1 rounded ${viewMode === 'orbit' ? 'bg-yellow-500 text-black' : 'bg-gray-800 hover:bg-gray-500'} transition-colors`}>3D</button>
+                    <button onClick={() => setViewMode('2d')} className={`cursor-pointer px-3 py-1 rounded ${viewMode === '2d' ? 'bg-yellow-500 text-black' : 'bg-gray-800 hover:bg-gray-500'} transition-colors`}>2D</button>
+                    <button onClick={() => setViewMode('fps')} className={`cursor-pointer px-3 py-1 rounded ${viewMode === 'fps' ? 'bg-yellow-500 text-black' : 'bg-gray-800 hover:bg-gray-500'} transition-colors`}>FPS</button>
                 </div>
             </div>
 
             <div 
-                className={`info-panel absolute top-0 right-0 h-full w-full max-w-sm bg-gray-800 bg-opacity-90 backdrop-blur-sm shadow-2xl p-8 z-20 transition-transform duration-300 ease-in-out transform ${selectedBuilding ? 'translate-x-0' : 'translate-x-full'}`}
+                className={`info-panel absolute top-0 right-0 h-full w-full max-w-sm bg-gray-800/70 backdrop-blur-sm shadow-2xl p-8 z-20 transition-transform duration-300 ease-in-out transform ${selectedBuilding ? 'translate-x-0' : 'translate-x-full'}`}
             >
                 {selectedBuilding && (
                     <div key={selectedBuilding.id}>
@@ -362,7 +362,7 @@ const App = () => {
             </div>
             
             {viewMode === 'fps' && !isFPSEnabled && (
-                <div onClick={() => threeRef.current.pointerLockControls.lock()} className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-30 cursor-pointer">
+                <div onClick={() => threeRef.current.pointerLockControls.lock()} className="absolute inset-0 bg-black/40 flex justify-center items-center z-30 cursor-pointer">
                     <div className="text-center">
                         <h2 className="text-3xl font-bold">First-Person View</h2>
                         <p className="mt-2 text-lg">Click to enter and explore</p>
